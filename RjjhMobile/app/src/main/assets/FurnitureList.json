@@ -1,0 +1,18 @@
+{
+  "furniture": [
+    {
+      "name": "cube",
+      "id": "1",
+      "width": "2",
+      "height": "1",
+      "img": "cube.png"
+    },
+    {
+      "name": "big cube",
+      "id": "2",
+      "width": "4",
+      "height": "2",
+      "img": "cube2.png"
+    }
+  ]
+}
