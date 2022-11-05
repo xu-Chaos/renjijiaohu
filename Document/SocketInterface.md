@@ -15,6 +15,7 @@ x和y表示这个家具左上角的坐标，rotate表示方向，如下
 
 ```json
 {
+  "type": "room",
   "roomWidth": 10,
   "roomHeight": 15,
   "furniture": [

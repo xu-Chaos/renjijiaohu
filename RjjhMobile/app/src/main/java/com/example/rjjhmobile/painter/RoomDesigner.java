@@ -55,7 +55,7 @@ public class RoomDesigner {
         });
     }
 
-    public boolean createObj(int objID, Context context){
+    public boolean createObj(int classID, Context context){
         if(nowSelected != null){
             return false;
         }
@@ -66,12 +66,12 @@ public class RoomDesigner {
             JSONArray furnitureArray = assetsReader.readJSON("FurnitureList.json").getJSONArray("furniture");
             for (int i = 0; i < furnitureArray.length(); i++){
                 JSONObject temp = furnitureArray.getJSONObject(i);
-                if(temp.getInt("id") == objID){
+                if(temp.getInt("id") == classID){
                     target = temp;
                     break;
                 }
             }
-            furniture.setClassID(objID);
+            furniture.setClassID(classID);
             furniture.setName(target.getString("name"));
             furniture.setWidth(target.getInt("width"));
             furniture.setHeight(target.getInt("height"));
@@ -212,6 +212,7 @@ public class RoomDesigner {
     public JSONObject toJSONMap(){
         JSONObject json = new JSONObject();
         try {
+            json.put("type","room");
             json.put("roomWidth",flag.length);
             json.put("roomHeight",flag[0].length);
             JSONArray array = new JSONArray();
