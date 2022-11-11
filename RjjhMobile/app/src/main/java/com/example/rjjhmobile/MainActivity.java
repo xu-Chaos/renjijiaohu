@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,9 +60,11 @@ public class MainActivity extends AppCompatActivity {
                 super.handleMessage(msg);
                 if(msg.arg1 == 0){
                     connectState.setText("已连接");
+                    connectState.setTextColor(Color.GREEN);
                 }
                 else if(msg.arg1 == -1){
                     connectState.setText("连接失败");
+                    connectState.setTextColor(Color.RED);
                 }
                 else{
                     connectState.setText("未知错误");

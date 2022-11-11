@@ -41,3 +41,26 @@ x和y表示这个家具左上角的坐标，rotate表示方向，如下
 
 ### 2.位置信息
 
+例子：
+
+##### request:
+
+```json
+{
+    "type": "location"
+}
+```
+
+##### response:
+
+```json
+{
+    "x": 0.4569,
+    "y": 0.8431,
+    "rotate": 75.6
+}
+```
+
+解释：
+
+![location](image\location.png)

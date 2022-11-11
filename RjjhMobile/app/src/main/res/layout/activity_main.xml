@@ -13,10 +13,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="连接状态:"/>
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="50dp"
+            android:text="连接状态:  "/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:id="@+id/connect_state"
             android:text="未连接"/>
     </LinearLayout>
@@ -27,7 +30,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ip:"/>
+            android:layout_marginLeft="60dp"
+            android:text="ip:        "/>
         <EditText
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -40,7 +44,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="port:"/>
+            android:layout_marginLeft="60dp"
+            android:text="port:    "/>
         <EditText
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -55,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="disconnect"
+            android:layout_marginLeft="60dp"
             android:text="断开"/>
         <Button
             android:layout_width="wrap_content"
@@ -65,6 +71,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="50dp"
         android:text="房间大小"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,6 +82,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:layout_marginLeft="60dp"
             android:id="@+id/row_input"/>
         <TextView
             android:layout_width="wrap_content"
@@ -92,6 +101,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
         android:text="进入设计"
         android:onClick="toDesignPage"/>
 
