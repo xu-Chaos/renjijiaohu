@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle("提示")
                     .setMessage("请输入正确ip/port")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {//添加"Yes"按钮
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {}
                     }).create();

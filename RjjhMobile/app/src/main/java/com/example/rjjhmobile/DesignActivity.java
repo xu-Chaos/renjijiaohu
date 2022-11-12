@@ -1,5 +1,6 @@
 package com.example.rjjhmobile;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +30,7 @@ import com.example.rjjhmobile.painter.RoomDesigner;
 import com.example.rjjhmobile.painter.RoomFloorPainter;
 import com.example.rjjhmobile.painter.RoomGridPainter;
 import com.example.rjjhmobile.painter.RoomImagePainter;
+import com.example.rjjhmobile.painter.RoomUserPainter;
 import com.example.rjjhmobile.util.AssetsReader;
 
 import org.json.JSONArray;
@@ -55,6 +59,7 @@ public class DesignActivity extends AppCompatActivity {
         ImageView roomGrid = findViewById(R.id.room_grid);
         ImageView roomFloor = findViewById(R.id.room_floor);
         ImageView roomImg = findViewById(R.id.room_image);
+        ImageView roomUser = findViewById(R.id.room_user);
         TextView furniture = findViewById(R.id.furniture_name);
 
         roomDesigner = new RoomDesigner(roomWidth,roomHeight,getScreenHeight(DesignActivity.this),roomGrid,roomFloor,roomImg,furniture);
@@ -98,6 +103,54 @@ public class DesignActivity extends AppCompatActivity {
         FurnitureAdapter adapter = new FurnitureAdapter(furnitureList);
         adapter.setAttribute(roomDesigner,this);
         recyclerView.setAdapter(adapter);
+
+        RoomUserPainter roomUserPainter = new RoomUserPainter(roomWidth,roomHeight,getScreenHeight(this),roomUser);
+        Bitmap userBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.user);
+        SocketConnect connect = SocketConnect.getConnect();
+
+        Handler handler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                try {
+                    String resString = msg.getData().getString("json");
+                    JSONObject resJSON = new JSONObject(resString);
+                    double userX = resJSON.getDouble("x");
+                    double userY = resJSON.getDouble("y");
+                    double userRotate = resJSON.getDouble("rotate");
+                    Bitmap tempBitmap=userBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                    roomUserPainter.printUser(userX,userY,userRotate,tempBitmap);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject sendJSON = new JSONObject();
+                    sendJSON.put("type","location");
+                    while (true){
+                        String res = connect.send(sendJSON.toString());
+                        Message msg = new Message();
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("json",res);
+                        msg.setData(bundle1);
+                        handler.sendMessage(msg);
+                        Thread.sleep(1000);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
     }
 
     int getScreenHeight(Context context){
@@ -107,13 +160,27 @@ public class DesignActivity extends AppCompatActivity {
         return point.y;
     }
     public void OKButtonClick(View view){
-        if(roomDesigner.settleObj() != -1){
-            socketConnect.send(roomDesigner.toJSONMap().toString());
+        if(roomDesigner.settleObj() != -1) {
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    socketConnect.send(roomDesigner.toJSONMap().toString());
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
         }
     }
     public void deleteButtonClick(View view){
         roomDesigner.deleteObj();
-        socketConnect.send(roomDesigner.toJSONMap().toString());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                socketConnect.send(roomDesigner.toJSONMap().toString());
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
     public void turnRight(View view){
         roomDesigner.rotateObj(1);
